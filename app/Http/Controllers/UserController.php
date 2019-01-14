@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App/User; //importing model...
+use App\User; //importing model...
 
 class UserController extends Controller
 {
@@ -17,16 +17,21 @@ class UserController extends Controller
 
     }
 
+    /*public function create() {
+        return view('list-users');
+    }*/
+
     public function store(Request $request){
 
         $user = new User();
         $user->name     = $request->name;
         $user->username = $request->username;
         $user->password = $request->password;
+        $user->email    = $request->email;
 
         $user->save();
 
-        return redirect()->route('user.index')->with('message', 'Usuário criado com sucesso!');
+        return redirect()->route('users.index')->with('message', 'Usuário criado com sucesso!');
 
     }
 
@@ -51,6 +56,7 @@ class UserController extends Controller
         $user->name     = $request->name;
         $user->username = $request->username;
         $user->password = $request->password;
+        $user->email    = $request->email;
 
         $user->save();
 
@@ -61,6 +67,9 @@ class UserController extends Controller
     public function destroy($id){
 
         $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('user.index')->with('message', 'Usuário excluído com sucesso!');
         
 
     }
